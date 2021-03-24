@@ -1,0 +1,7 @@
+env
+db.json
+.vscode
+__pycache__
+model/__pycache__
+controller/__pycache__
+view/__pycache__
