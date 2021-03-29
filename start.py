@@ -1,6 +1,4 @@
-#! /usr/bin/env python3
-# coding: utf-8
 
-from app.controller import c_main
+from app.controller import c_menu
 
-c_main.Controller().main()
+c_menu.Controller().main_menu()
