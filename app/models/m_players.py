@@ -29,3 +29,4 @@ class Players:
         })
 
         print('Le joueur ' + self.name + ' ' + self.surname + ' a était sauvegardé avec succès !')
+        return self.date
