@@ -1,7 +1,7 @@
 from app.controllers import c_input
 
-class playersControl:
 
+class playersControl:
 
     def create_players(self):
         """ Input for create player & return inputs """
@@ -12,7 +12,9 @@ class playersControl:
             'date', 'Date de naissance: ')
         self.genre = c_input.Input().check_input('genre', 'F ou M: ')
         self.rank = c_input.Input().check_input('number', 'Classement: ')
-        return ([self.name, self.surname, self.birthday,
-            self.genre, self.rank]
+        return (
+            [
+                self.name, self.surname, self.birthday,
+                self.genre, self.rank
+            ]
         )
-        

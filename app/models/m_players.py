@@ -1,6 +1,5 @@
 
 from tinydb import TinyDB, Query
-from app.controllers import c_input
 from app.controllers import c_players
 from app.views import v_menu
 import datetime
@@ -8,9 +7,7 @@ import datetime
 
 class Player:
 
-
     def __init__(self, id=None):
-       
         self.name = ''
         self.surname = ''
         self.birthday = ''
@@ -20,14 +17,15 @@ class Player:
         self.id = id
 
         if id:
-           self.set_data_from_db(id)
+            self.set_data_from_db(id)
         else:
             self.set_data_from_input()
 
     def set_data_from_db(self, id):
 
         q = Query()
-        data = TinyDB('app/data/db_player.json').table('players').search(q.id == id)
+        data = TinyDB('app/data/db_player.json').table(
+            'players').search(q.id == id)
         self.name = data[0]['name']
         self.surname = data[0]['surname']
         self.birthday = data[0]['birthday']
@@ -60,18 +58,18 @@ class Player:
         v_menu.View().save_player(self.name, self.surname)
         return self.id
 
-
     def modify(self, new_rank):
 
         q = Query()
         p_tab = TinyDB('app/data/db_player.json').table('players')
 
-        self.new_rank = new_rank
-        p_tab.update({"rank": self.new_rank}, q.id == self.id)
+        self.rank = new_rank
+        p_tab.update({"rank": self.rank}, q.id == self.id)
 
-        v_menu.View().modify_player(self.surname, self.name, self.birthday, self.new_rank)
+        v_menu.View().modify_player(
+            self.surname, self.name, self.birthday, self.rank
+        )
 
-    
     def update_score(self, id_tournament, score):
 
         q = Query()
@@ -83,7 +81,6 @@ class Player:
         else:
             self.scores[id_tournament] = score
             p_tab.update({"scores": self.scores}, q.id == self.id)
-
 
     def get_score(self, id_tournament):
         if id_tournament in self.scores:

@@ -1,9 +1,10 @@
-
 from app.views import v_menu
 import datetime
 
+
 class Input:
 
+    # Check len of menu and return selected menu
     def select_menu_number(self, menu_len):
         self.menu_len = menu_len
         self.menu_number = 0
@@ -18,12 +19,12 @@ class Input:
                     v_menu.View().short("err_choise")
                     self.menu_number = 0
 
-            except:
+            except ValueError:
                 v_menu.View().short("err_choise")
                 self.menu_number = 0
         return self.menu_number
 
-
+    # Check type input and return value
     def check_input(self, type, desc):
 
         self.type = type
@@ -47,8 +48,8 @@ class Input:
                 try:
                     self.input = int(input(desc))
                     if self.input < 0:
-                        v_menu.View().short("err_number")           
-                except:
+                        v_menu.View().short("err_number")
+                except ValueError:
                     v_menu.View().short("err_number")
             return self.input
 
@@ -60,10 +61,10 @@ class Input:
                     date = date.date()
                     break
                 except ValueError:
-                    v_menu.View().short("err_date") 
+                    v_menu.View().short("err_date")
             return self.input
 
-
+    # Check rounds number, if empty set to 4, return value
     def rounds_tournament(self, desc):
         self.input = input(desc)
         while True:
@@ -76,11 +77,11 @@ class Input:
                 self.input = int(self.input)
                 try:
                     if self.input <= 0:
-                        v_menu.View().short("err_number") 
+                        v_menu.View().short("err_number")
                         self.input = int(input(desc))
                     else:
-                        break         
-                except:
+                        break
+                except ValueError:
                     v_menu.View().short("err_number")
                     self.input = int(input(desc))
 

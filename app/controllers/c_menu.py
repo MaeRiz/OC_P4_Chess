@@ -1,8 +1,5 @@
-
 from app.views import v_menu
-from app.controllers import c_players
 from app.controllers import c_input
-from app.controllers import c_tournaments
 from app.models import m_search
 from app.models import m_players
 from app.models import m_list
@@ -10,7 +7,6 @@ from app.models import m_tournaments
 
 
 class Controller:
-
 
     def main_menu(self):
         v_menu.View().main_menu()
@@ -27,7 +23,6 @@ class Controller:
         # Close app
         elif self.menu_number == 3:
             pass
-
 
     def players_menu(self):
         v_menu.View().players_menu()
@@ -71,7 +66,7 @@ class Controller:
         self.menu_number = c_input.Input().select_menu_number(5)
 
         # Call for create tounament
-        if self.menu_number == 1:   
+        if self.menu_number == 1:
             m_tournaments.Tournament()
             Controller().tournaments_menu()
 
@@ -85,8 +80,8 @@ class Controller:
             else:
                 Controller().current_tournament_menu(self.find_tournament)
 
-        # Call list tounaments 
-        elif self.menu_number == 3:   
+        # Call list tounaments
+        elif self.menu_number == 3:
             m_list.List().tournaments()
             Controller().tournaments_menu()
 
@@ -103,7 +98,8 @@ class Controller:
 
         self.show_menu = v_menu.View().current_tournament_menu(
             self.tournament.name, self.tournament.stat,
-            self.tournament.start, self.tournament.end, self.tournament.rounds_nbr
+            self.tournament.start, self.tournament.end,
+            self.tournament.rounds_nbr
         )
         self.menu_number = c_input.Input().select_menu_number(6)
 
@@ -115,11 +111,13 @@ class Controller:
                 self.tournament.start_rounds()
                 self.tournament.stat += 1
                 self.current_tournament_menu(self.tournament.id)
-                
+
         # List players
         elif self.menu_number == 2:
             v_menu.View().list_menu_t()
-            self.tournament.list_players(c_input.Input().select_menu_number(3))
+            self.tournament.list_players(
+                c_input.Input().select_menu_number(3)
+            )
             self.current_tournament_menu(self.tournament.id)
 
         # List matchs et rounds
