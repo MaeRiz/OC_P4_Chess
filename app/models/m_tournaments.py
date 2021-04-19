@@ -30,7 +30,7 @@ class Tournament:
     def set_data_from_db(self, id):
 
         q = Query()
-        data = TinyDB('db_tournaments.json').table('tournaments').search(q.id == id)
+        data = TinyDB('app/data/db_tournaments.json').table('tournaments').search(q.id == id)
         self.name = data[0]['name']
         self.place = data[0]['place']
         self.start = data[0]['start']
@@ -45,7 +45,7 @@ class Tournament:
     def set_data_from_input(self):
 
         call_inputs = c_tournaments.Tournaments().create_tournament()
-        tournaments_table = TinyDB('db_tournaments.json').table('tournaments')
+        tournaments_table = TinyDB('app/data/db_tournaments.json').table('tournaments')
 
         self.name = call_inputs[0]
         self.place = call_inputs[1]
@@ -82,18 +82,22 @@ class Tournament:
             p_data = ()
             p_data = (player.surname,
                         player.name,
-                        player.birthday,
                         player.genre,
-                        player.rank)
+                        player.rank,
+                        player.get_score(self.id))
             list_players.append(p_data)
 
         if self.order == 1:
             list_a = sorted(list_players, key=lambda colonnes: colonnes[0])
         elif self.order == 2:
             list_a = sorted(list_players,
+                key=lambda colonnes: colonnes[3], reverse=True)
+        elif self.order == 3:
+            list_a = sorted(list_players,
                 key=lambda colonnes: colonnes[4], reverse=True)
         for i in range(len(list_a)):
-            print(list_a[i])
+            v_menu.View().list_players_t(list_a[i][0], list_a[i][1], list_a[i][2], list_a[i][3], list_a[i][4])
+
         input('\nEntrer pour revenir au menu précédent')
 
 
@@ -118,17 +122,20 @@ class Tournament:
 
             if self.winner == 1:
                 self.player1.update_score(self.id, 1)
+                self.player1_score = 1
+                self.player2_score = 0
             elif self.winner == 2:
                 self.player2.update_score(self.id, 1)
+                self.player1_score = 0
+                self.player2_score = 1
             elif self.winner == 3:
                 self.player1.update_score(self.id, 0.5)
                 self.player2.update_score(self.id, 0.5)
-
+                self.player1_score = 0.5
+                self.player2_score = 0.5
             self.match += 1
-
-            self.players_score.append([[self.player1.id, self.player1.get_score(self.id)], [self.player2.id, self.player2.get_score(self.id)]])
-
-
+            self.players_score.append([[self.player1.id, self.player1_score], [self.player2.id, self.player2_score]])
+        
         self.round_end = datetime.datetime.now().strftime("%H:%M:%S")
 
         self.rounds[self.stat] = {
@@ -195,7 +202,7 @@ class Tournament:
                             list_players_for_rank.append(list_players_score[0][0])
                             list_players_score.pop(0)
                             break
-                    print(list_players_for_rank)
+
                     temp_list_players = []
                     for i in range(len(list_players_for_rank)):
                         self.player = m_players.Player(list_players_for_rank[i])
@@ -217,7 +224,7 @@ class Tournament:
                 list_players_score.pop(0)
             except IndexError:
                 pass
-            print(list_players_ranked)
+
             # Vérification si les joueurs ont déjà jouer contre
             final_players_list = []
             while len(list_players_ranked) > 2:
@@ -262,10 +269,11 @@ class Tournament:
                                 return True
 
         return False
+
     def save(self):
 
         q = Query()
-        t_tab = TinyDB('db_tournaments.json').table('tournaments')
+        t_tab = TinyDB('app/data/db_tournaments.json').table('tournaments')
 
         t_tab.update({"stat": self.stat}, q.id == self.id)
         t_tab.update({"rounds": self.rounds}, q.id == self.id)
@@ -277,10 +285,9 @@ class Tournament:
 
             for i_rounds in range(len(self.rounds)):
                 i_rounds_key = str(i_rounds + 1)
+                v_menu.View().rounds_nbr(i_rounds_key, self.rounds[i_rounds_key]['time'][0], self.rounds[i_rounds_key]['time'][1])
                 for i_matchs in range(len(self.rounds[i_rounds_key]['matchs'])):
                     player1 = m_players.Player(self.rounds[i_rounds_key]['matchs'][i_matchs][0][0])
                     player2 = m_players.Player(self.rounds[i_rounds_key]['matchs'][i_matchs][1][0])
-                    v_menu.View().list_rounds(i_rounds_key, i_matchs + 1, player1.name, player1.surname, player2.name, player2.surname, self.rounds[i_rounds_key]['matchs'][i_matchs][0][1], self.rounds[i_rounds_key]['matchs'][i_matchs][1][1])
+                    v_menu.View().list_rounds(i_matchs + 1, player1.name, player1.surname, player2.name, player2.surname, self.rounds[i_rounds_key]['matchs'][i_matchs][0][1], self.rounds[i_rounds_key]['matchs'][i_matchs][1][1])
                 input("\nEntrer pour afficher la suite")
-        else:
-            print("Le tournoi n'est pas encore terminé")

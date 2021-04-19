@@ -6,7 +6,7 @@ class List:
     def players(self, order):
 
         self.order = order
-        p_tab = TinyDB('db_player.json').table('players')
+        p_tab = TinyDB('app/data/db_player.json').table('players')
 
         all_players = p_tab.all()
         list_players = []
@@ -27,18 +27,19 @@ class List:
                 key=lambda colonnes: colonnes[4], reverse=True)
                 
         for i in range(len(list_a)):
-            print(list_a[i])
+            v_menu.View().list_players(list_a[i][0], list_a[i][1], list_a[i][2], list_a[i][3], list_a[i][4])
+
         input('\nEntrer pour revenir au menu précédent')
 
     def tournaments(self):
 
-        t_tab = TinyDB('db_tournaments.json').table('tournaments')
+        t_tab = TinyDB('app/data/db_tournaments.json').table('tournaments')
         all_tournaments = t_tab.all()
 
         for i in range(len(all_tournaments)):
             v_menu.View().list_tournaments(all_tournaments[i]['name'],
             all_tournaments[i]['place'], all_tournaments[i]['start'],
-            all_tournaments[i]['end'], all_tournaments[i]['rounds'],
+            all_tournaments[i]['end'], all_tournaments[i]['rounds_nbr'],
             all_tournaments[i]['timing'], all_tournaments[i]['description'])
 
         input('\nEntrer pour revenir au menu précédent')

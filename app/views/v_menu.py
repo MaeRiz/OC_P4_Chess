@@ -19,7 +19,7 @@ class View:
         print("\n\
 1 ● Ajouter un joueur.\n\
 2 ● Modifier un joueur.\n\
-3 ● Liste des acteurs.\n\
+3 ● Liste des joueurs.\n\
 4 ● Retour au menu principal.\n\
 5 ● Quitter l'application.\n") 
 
@@ -50,8 +50,14 @@ class View:
 
     def list_menu(self):
         print("\n\
-1 ● Liste par ordre alphabétique\n\
+1 ● Liste par ordre alphabétique.\n\
 2 ● Liste par ordre de classement.\n")
+
+    def list_menu_t(self):
+        print("\n\
+1 ● Liste par ordre alphabétique.\n\
+2 ● Liste par ordre de classement.\n\
+3 ● Liste par ordre de points.\n")
 
     def short(self, name):
         self.name = name
@@ -94,7 +100,40 @@ class View:
         print('3 ● Match nul\n')
 
 
-    def list_rounds(self, num_round, num_match, player1_name, player1_surname, player2_name, player2_surname, point1, point2):
-        print('\nTour', num_round, '- Match', num_match)
+    def list_rounds(self, num_match, player1_name, player1_surname, player2_name, player2_surname, point1, point2):
+        print('\nMatch', num_match)
         print(player1_name, player1_surname, point1)
         print(player2_name, player2_surname, point2)
+
+    def rounds_nbr(self, round_num, start, end):
+        print('\nTour', round_num)
+        print(start, '-', end)
+
+    def list_players(self, surname, name, birth, genre, rank):
+        print(surname, name, '- Date:', birth, '- Genre:', genre, '- Classement:', rank)
+
+    def list_players_t(self, surname, name, genre, rank, score):
+        print(surname, name, '- Genre:', genre, '- Classement:', rank, '- Points:', score)
+
+    def search(self, type):
+        if type == 'player_none':
+            print("\nAucuns joueur n'a était trouver avec ce nom.")
+        elif type == 'tournament_none':
+            print("\nAucuns tounoi n'a était trouver avec ce nom.")
+
+    def search_players(self, type, name, surname, birth, rank, num=None):
+        if type == 'find_player':
+            print(name, surname, birth, '- Classement actuel:', rank)
+        elif type == 'find_players':
+            print(num, '●', name, surname, birth, '- Classement actuel:', rank)
+
+    def search_tournaments(self, type, name, place, start, num=None):
+        if type == 'find_tournament':
+            print(name, place, start)
+        elif type == 'find_tournaments':
+            print(num, '●', name, place, start)
+
+    def modify_player(self, surname, name, birth, rank):
+        print('\nMise à joueur de:', surname, name, birth, '(Nouveau classement:', rank, ')')
+    def save_player(self, name, surname):
+        print('\nLe joueur', name, surname, 'a était sauvegardé avec succès !')

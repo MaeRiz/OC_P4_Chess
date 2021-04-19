@@ -110,7 +110,7 @@ class Controller:
         # Start round
         if self.menu_number == 1:
             if self.tournament.stat > self.tournament.rounds_nbr:
-                print('Tournois fini')
+                self.current_tournament_menu(self.tournament.id)
             else:
                 self.tournament.start_rounds()
                 self.tournament.stat += 1
@@ -118,9 +118,9 @@ class Controller:
                 
         # List players
         elif self.menu_number == 2:
-            v_menu.View().list_menu()
-            self.tournament.list_players(c_input.Input().select_menu_number(2))
-            Cself.current_tournament_menu(self.tournament.id)
+            v_menu.View().list_menu_t()
+            self.tournament.list_players(c_input.Input().select_menu_number(3))
+            self.current_tournament_menu(self.tournament.id)
 
         # List matchs et rounds
         elif self.menu_number == 3:
@@ -135,8 +135,8 @@ class Controller:
                 self.tournament.rounds_nbr, self.tournament.timing,
                 self.tournament.description
             )
-            input('Entrer pour revenir au menu précédent')
-            Controller().current_tournament_menu(self.tournament.id)
+            input('\nEntrer pour revenir au menu précédent')
+            self.current_tournament_menu(self.tournament.id)
 
         # Back to tournament menu
         elif self.menu_number == 5:
