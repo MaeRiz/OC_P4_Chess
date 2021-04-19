@@ -25,8 +25,8 @@ class View:
         print('\n')
         print('-=[ MENU TOURNOIS ]=-')
         print("\n\
-1 ● Créer un tournois.\n\
-2 ● Charger un tournois.\n\
+1 ● Créer un tournoi.\n\
+2 ● Charger un tournoi.\n\
 3 ● Liste des tournois.\n\
 4 ● Retour au menu principal.\n\
 5 ● Quitter l'application.\n")
@@ -38,11 +38,11 @@ class View:
         if stat > rounds:
             print('\nLe tournoi est terminé.')
         else:
-            print("\n1 ● Démarrer le tours n°", stat,)
+            print("\n1 ● Démarrer le tours n°", stat)
         print("\
 2 ● Liste des joueurs.\n\
 3 ● Liste des tours et matchs.\n\
-4 ● Informations du tournois.\n\
+4 ● Informations du tournoi.\n\
 5 ● Retour au menu tournois.\n\
 6 ● Quitter l'application.\n")
 
@@ -62,7 +62,7 @@ class View:
         if self.name == "err_choise":
             print("Ce choix est incorrect.")
         elif self.name == 'err_number':
-            print('Veuillez choisir un nombre positif.')
+            print('Choisir un nombre positif.')
         elif self.name == 'err_date':
             print('Format demandé: JJ/MM/AAAA')
         elif self.name == 'default_rounds':
@@ -126,9 +126,9 @@ class View:
 
     def search(self, type):
         if type == 'player_none':
-            print("\nAucuns joueur n'a était trouver avec ce nom.")
+            print("\nAucun joueur n'a était trouvé avec ce nom.")
         elif type == 'tournament_none':
-            print("\nAucuns tounoi n'a était trouver avec ce nom.")
+            print("\nAucun tounoi n'a était trouvé avec ce nom.")
 
     def search_players(self, type, name, surname, birth, rank, num=None):
         if type == 'find_player':
